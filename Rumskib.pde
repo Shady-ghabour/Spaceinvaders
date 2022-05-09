@@ -1,6 +1,6 @@
 class SpaceShip {
     int x, y;
-    String sprite[];
+    String PixelRow[];
     color baseColor = color(255, 255, 255);
     color nextColor = baseColor;
     color Test = color(121,27,180);
@@ -8,18 +8,18 @@ class SpaceShip {
 
     void draw() {
         updateObj();
-        drawSprite(x, y);
+        drawPixelRow(x, y);
     }
-
-    void drawSprite(int xpos, int ypos) {
+//Tegner pixels i hele spillet, både spilleren og enemies
+    void drawPixelRow(int xpos, int ypos) {
         fill(nextColor);
         if (ypos < 510){
          fill(Test); 
         }
         nextColor = baseColor;
       
-        for (int i = 0; i < sprite.length; i++) {
-            String row = (String) sprite[i];
+        for (int i = 0; i < PixelRow.length; i++) {
+            String row = (String) PixelRow[i];
 
             for (int j = 0; j < row.length(); j++) {
                 if (row.charAt(j) == '1') {
@@ -34,21 +34,23 @@ class SpaceShip {
 }
 
 
-
+//Player klassen lavet ud fra Spaceship klasse
 class Player extends SpaceShip {
     boolean canShoot = true;
     int shootdelay = 0;
-    boolean canDie = false;
+    //Spillerens startposition
     Player() {
         x = width/gridsize/2;
         y = height - (10 * pixelsize);
-        //Rumskibets pixelart - 0 er sort 1 er hvid. Den er lavet med 5 rækker
-        sprite    = new String[5];
-        sprite[0] = "0001000";
-        sprite[1] = "0011100";
-        sprite[2] = "0111110";
-        sprite[3] = "1111111";
-        sprite[4] = "1111111";
+        //Rumskibets pixelart - 0 er sort 1 er hvid. Den er lavet med 5 rækker med en arraylist
+        PixelRow    = new String[5];
+        PixelRow[0] = "0001000";
+        PixelRow[1] = "0001000";
+        PixelRow[2] = "1011101";
+        PixelRow[3] = "1111111";
+        PixelRow[4] = "1011101";
+        Playerx = x;
+        Playery = y;
     }
 //Bevægelse højre og venstre ved brug af <- og ->
     void updateObj() {
@@ -67,9 +69,11 @@ class Player extends SpaceShip {
         }
 //Giver skudene en delay som ovenfor
         shootdelay++;
-        
-        if (shootdelay >=20) {
+        //Her inkluderes PowerUp systemmet, som 1/2 skudenes delay og spilleren skyder 2x hurtigere
+        if (shootdelay >=20 && PowerUpCollected == false) {
             canShoot = true;
+        } else if(shootdelay >=10 && PowerUpCollected == true){
+         canShoot = true; 
         }
     }
 }
