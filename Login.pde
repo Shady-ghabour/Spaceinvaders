@@ -1,3 +1,4 @@
+//LOGIN
 import de.bezier.data.sql.*;
 import de.bezier.data.sql.mapper.*;
 import static javax.swing.JOptionPane.*;

@@ -1,7 +1,5 @@
-void powerUp(int x, int y){
-  fill(255);
-  
-  circle(x,y,25);
-y--;
-  
+void powerUp(int x, int y) {
+  fill(powerUpColor);
+  rect(x, y, 25, 25);
+  y--;
 }
